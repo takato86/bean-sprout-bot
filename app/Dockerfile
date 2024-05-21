@@ -1,23 +1,14 @@
-# Use the official Go image as the base image
-FROM golang:1.22-alpine
+FROM public.ecr.aws/docker/library/python:3.10.14
+# FROM python:3.10.14
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Go module files
-COPY go.mod go.sum ./
+COPY requirements.txt ./
 
-# Download and install the Go dependencies
-RUN go mod download
+RUN pip install -r requirements.txt
 
-# Copy the rest of the application source code
 COPY . .
 
-# Build the Go application
-RUN go build -o main .
-
-# Expose the port that the application listens on
 EXPOSE 8080
 
-# Set the entry point for the container
-CMD ["./main"]
+CMD ["python", "-m", "flask", "--app", "main", "run", "--host=0.0.0.0", "-p", "8080"]

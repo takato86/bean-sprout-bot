@@ -46,6 +46,12 @@ export class AppStack extends Stack {
           environmentSecrets: {
             CHANNEL_SECRET: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/CHANNEL_SECRET', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/CHANNEL_SECRET`)),
             CHANNEL_TOKEN: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/CHANNEL_TOKEN', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/CHANNEL_TOKEN`)),
+            AWS_ACCESS_KEY_ID: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/AWS_ACCESS_KEY_ID', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/AWS_ACCESS_KEY_ID`)),
+            AWS_SECRET_ACCESS_KEY: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/AWS_SECRET_ACCESS_KEY', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/AWS_SECRET_ACCESS_KEY`)),
+            AZURE_OPENAI_API_KEY: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/AZURE_OPENAI_API_KEY', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/AZURE_OPENAI_API_KEY`)),
+            AZURE_OPENAI_ENDPOINT: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/AZURE_OPENAI_ENDPOINT', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/AZURE_OPENAI_ENDPOINT`)),
+            OPENAI_API_VERSION: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/OPENAI_API_VERSION', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/OPENAI_API_VERSION`)),
+            OPEN_WEATHER_MAP_API_KEY: apprunner.Secret.fromSecretsManager(Secret.fromSecretPartialArn(this, 'linebot-apprunner-handson/OPEN_WEATHER_MAP_API_KEY', `arn:aws:ssm:ap-northeast-1:${this.account}:parameter/linebot-apprunner-handson/OPEN_WEATHER_MAP_API_KEY`)),
           },
           environmentVariables: {
             AWS_REGION: this.region,
@@ -69,12 +75,12 @@ export class AppStack extends Stack {
     // DynamoDBテーブルを作成
     const dynamodbTable = new Table(this, 'LineBotHandsonTable', {
       partitionKey: {
-        name: 'userId',
+        name: 'publisherId',
         type: AttributeType.STRING,
       },
       sortKey: {
         name: 'timestamp',
-        type: AttributeType.STRING,
+        type: AttributeType.NUMBER,
       },
       removalPolicy: RemovalPolicy.DESTROY,
       tableName: tableName,
